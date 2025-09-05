@@ -18,6 +18,13 @@ export default defineConfig({
   server: {
     port: 8000,
     host: true,
-    open: true
+    open: true,
+    proxy: {
+      // 代理所有以/api开头的请求到目标服务器
+      '/api': {
+        target: 'http://192.168.10.171:8099', // 后端服务IP和端口
+        changeOrigin: true
+      }
+    }
   }
 })

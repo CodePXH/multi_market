@@ -1,6 +1,9 @@
 <template>
   <div class="index-page">
-    <router-view></router-view>
+    <div class="header-cla"></div>
+    <div class="content-cla">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -19,9 +22,19 @@ export default {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .index-page {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+
+  .header-cla {
+    width: 100%;
+    height: 50px;
+    background-color: #30a1f1;
+  }
+  .content-cla {
+    width: 100%;
+    height: calc(100vh - 50px);
+  }
 }
 </style>
