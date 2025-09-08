@@ -166,7 +166,6 @@ export default {
 .market-index-page {
   height: 100%;
   width: 100vw;
-  //background-color: #2de4d9;
   color: var(--color-text);
   padding: 0 1rem;
   .header-cla {

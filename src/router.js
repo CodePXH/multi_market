@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import {createRouter, createWebHashHistory} from "vue-router";
 import indexPage from "@/components/indexPage.vue";
 import marketIndexPage from "@/components/market/indexPage.vue";
 
@@ -21,7 +21,7 @@ const routes = [
   }
 ]
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(import.meta.env.BASE_URL),
     routes
 })
 export default router
