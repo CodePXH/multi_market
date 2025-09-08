@@ -9,6 +9,7 @@
 import {defineComponent,toRaw} from "vue";
 import {AShareMarketTimeLine} from "@/utils/constant.js";
 import * as echarts from 'echarts';
+import {getRedOrGreenColorHtml} from "@/utils/ustils.js";
 
 export default defineComponent({
   name: 'multiIndexLine',
@@ -33,11 +34,17 @@ export default defineComponent({
             type: 'line'
           },
           formatter: function (params) {
+            console.warn(params)
             let str = ''
-            params.forEach((e, i) => {
-              str += `<div>${e.marker}${e.seriesName}：${e.data.current}：${e.value + '%'}</div>`
+            params.sort((a, b) => {
+              return b.value - a.value
+            }).forEach((e, i) => {
+              str += `<div>${e.marker}${e.seriesName}：${getRedOrGreenColorHtml(e.data.current, e.value)}：${getRedOrGreenColorHtml(e.value + '%', e.value)}</div>`
             })
-            return str
+            return `<div>
+              <div style="color:#034ef8;font-size:14px;font-weight:bold;">${params[0].axisValue}</div>
+              ${str}
+              </div>`
           }
         },
         xAxis: {
