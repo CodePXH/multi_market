@@ -33,7 +33,6 @@ export default defineComponent({
             type: 'line'
           },
           formatter: function (params) {
-            console.warn(params)
             let str = ''
             params.forEach((e, i) => {
               str += `<div>${e.marker}${e.seriesName}：${e.data.current}：${e.value + '%'}</div>`

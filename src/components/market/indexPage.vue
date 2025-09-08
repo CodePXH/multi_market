@@ -9,6 +9,7 @@
           placeholder="请选择指数"
           class="custom-multiple-select"
           style="width: 30%;margin-right: 10px; max-height: 30px"
+          @change="handleIndexSelectChange"
       >
         <el-option
             v-for="index in indexList"
@@ -34,6 +35,7 @@ import SetCookie from "@/components/market/common/setCookie.vue";
 import {AShareMarketTimeLine} from "@/utils/constant.js";
 import MultiIndexLine from "@/components/market/common/multiIndexLine.vue";
 import polling from "@/utils/polling.js";
+import {ElMessage} from "element-plus";
 
 export default {
   name: 'market-index-page',
@@ -62,15 +64,7 @@ export default {
     }
   },
   watch: {
-    // 监听选中指数变化，触发实时数据查询
-    selectedIndices: {
-      handler: async function(newVal) {
-        if (newVal.length > 0) {
-          await this.fetchMultipleIndicesData(newVal);
-        }
-      },
-      immediate: false // 初始加载时不触发，仅在选择变化时触发
-    }
+
   },
   destroyed() {
     polling.stop(this.pollingQuery)
@@ -82,6 +76,21 @@ export default {
     pollingQuery () {
       if (this.selectedIndices.length > 0) {
         this.fetchMultipleIndicesData(this.selectedIndices);
+      }
+    },
+    handleIndexSelectChange (value) {
+      if (value.length > 50) {
+        ElMessage.warning('最多只能选择 50 个选项');
+        // 去掉最后一个选择的选项
+        const selected = value.slice(0, 50);
+        this.$nextTick(() => {
+          this.selectedIndices = selected
+          this.fetchMultipleIndicesData(this.selectedIndices);
+        })
+      } else {
+        if (this.selectedIndices.length > 0) {
+          this.fetchMultipleIndicesData(this.selectedIndices);
+        }
       }
     },
     /**
