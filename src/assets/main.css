@@ -17,7 +17,18 @@ a,
   transition: 0.4s;
   padding: 3px;
 }
-
+.el-select__selection {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  gap: 6px;
+  min-width: 0;
+  position: relative;
+  flex-wrap: nowrap !important;   /* 不换行 */
+  overflow: hidden !important;    /* 超出隐藏 */
+  text-overflow: ellipsis;        /* 超出显示省略号（可选） */
+  white-space: nowrap;            /* 强制单行 */
+}
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);

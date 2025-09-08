@@ -6,7 +6,7 @@
 
 <script>
 
-import {defineComponent} from "vue";
+import {defineComponent,toRaw} from "vue";
 import {AShareMarketTimeLine} from "@/utils/constant.js";
 import * as echarts from 'echarts';
 
@@ -21,9 +21,26 @@ export default defineComponent({
       }
     }
   },
+  destroyed() {
+    this.beforeUnmount()
+  },
   data() {
     return {
       options: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line'
+          },
+          formatter: function (params) {
+            console.warn(params)
+            let str = ''
+            params.forEach((e, i) => {
+              str += `<div>${e.marker}${e.seriesName}：${e.data.current}：${e.value + '%'}</div>`
+            })
+            return str
+          }
+        },
         xAxis: {
           type: 'category',
           data: AShareMarketTimeLine
@@ -60,13 +77,15 @@ export default defineComponent({
         element.style.width = '100%'
         element.style.height = '100%'
       }
-      this.chart = echarts.init(element)
+      let eChartsType = echarts.init(element);
+      console.log(eChartsType)
+      this.chart = eChartsType
       this.drawChart()
     },
     drawChart() {
       this.handleData()
       this.handleYAxis()
-      this.chart.setOption(this.options, {
+      toRaw(this.chart).setOption(this.options, {
         notMerge: true
       })
     },
@@ -119,6 +138,9 @@ export default defineComponent({
           current: e.current
         }
       })
+    },
+    beforeUnmount() {
+
     }
   }
 })

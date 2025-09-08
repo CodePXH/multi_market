@@ -8,7 +8,7 @@
           clearable
           placeholder="请选择指数"
           class="custom-multiple-select"
-          style="width: 30%;margin-right: 10px;"
+          style="width: 30%;margin-right: 10px; max-height: 30px"
       >
         <el-option
             v-for="index in indexList"
@@ -33,6 +33,7 @@ import {Setting} from "@element-plus/icons-vue";
 import SetCookie from "@/components/market/common/setCookie.vue";
 import {AShareMarketTimeLine} from "@/utils/constant.js";
 import MultiIndexLine from "@/components/market/common/multiIndexLine.vue";
+import polling from "@/utils/polling.js";
 
 export default {
   name: 'market-index-page',
@@ -47,6 +48,7 @@ export default {
   },
   async mounted() {
     // 获取指数列表数据
+    polling.start(this.pollingQuery, 30 * 1000)
     try {
       const indices = await getIndexCache();
       if (indices) {
@@ -70,9 +72,17 @@ export default {
       immediate: false // 初始加载时不触发，仅在选择变化时触发
     }
   },
+  destroyed() {
+    polling.stop(this.pollingQuery)
+  },
   methods: {
     setCookie () {
       this.$refs.setCookie.show()
+    },
+    pollingQuery () {
+      if (this.selectedIndices.length > 0) {
+        this.fetchMultipleIndicesData(this.selectedIndices);
+      }
     },
     /**
      * 批量获取多个指数的实时数据
@@ -160,12 +170,6 @@ export default {
     justify-content: left;
   }
   .custom-multiple-select {}
-  .custom-multiple-select .el-select .el-select__tags {
-    flex-wrap: nowrap !important;   /* 不换行 */
-    overflow: hidden !important;    /* 超出隐藏 */
-    text-overflow: ellipsis;        /* 超出显示省略号（可选） */
-    white-space: nowrap;            /* 强制单行 */
-  }
   .content-cla2 {
     margin-top: 5px;
     height: calc(100% - 65px);
