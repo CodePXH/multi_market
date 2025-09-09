@@ -79,6 +79,9 @@ export default {
       }
     },
     handleIndexSelectChange (value) {
+      if (this.selectedIndices.length === 0) {
+        this.indexRealTimeData = {}
+      }
       if (value.length > 50) {
         ElMessage.warning('最多只能选择 50 个选项');
         // 去掉最后一个选择的选项

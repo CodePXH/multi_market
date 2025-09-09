@@ -49,7 +49,23 @@ export default defineComponent({
         },
         xAxis: {
           type: 'category',
-          data: AShareMarketTimeLine
+          data: AShareMarketTimeLine,
+          axisLabel: {
+            interval: 0, // 强制显示所有标签
+            formatter: function(value, index) {
+              // AShareMarketTimeLine是['09:30','10:00','10:30'...]格式
+              if (value === '11:30') {
+                return '';
+              }
+              if (value === '13:00') {
+                return '11:30/13:00';
+              }
+              return value.includes(':30') || value.includes(':00') ? value : ''; // 每半小时显示一个
+            }
+          },
+          axisTick: {
+            alignWithLabel: true // 刻度与标签对齐
+          }
         },
         // xAxis: {},
         yAxis: {
@@ -96,9 +112,9 @@ export default defineComponent({
       })
     },
     handleYAxis () {
-      this.options.yAxis.max = Math.round((this.maxPercent + 1) * 100) / 100
-      this.options.yAxis.min = -Math.round((this.maxPercent + 1) * 100) / 100
-      this.options.yAxis.interval = Math.round(this.maxPercent / 3 * 100) / 100
+      this.options.yAxis.max = Math.ceil(this.maxPercent)
+      this.options.yAxis.min = -Math.ceil(this.maxPercent)
+      this.options.yAxis.interval = Math.ceil(this.maxPercent) / 5
     },
     handleData () {
       const series = []
@@ -141,7 +157,8 @@ export default defineComponent({
           value: e.percent,
           name: info.name,
           code: info.code,
-          current: e.current
+          current: e.current,
+          time: e.time
         }
       })
     },
