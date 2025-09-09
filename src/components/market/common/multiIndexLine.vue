@@ -28,13 +28,19 @@ export default defineComponent({
   data() {
     return {
       options: {
+        legend: {
+          top:0,
+          itemWidth: 45,
+          itemHeight: 0,
+          data: [],
+          selected: {}
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
             type: 'line'
           },
           formatter: function (params) {
-            console.warn(params)
             let str = ''
             params.sort((a, b) => {
               return b.value - a.value
@@ -110,6 +116,9 @@ export default defineComponent({
       toRaw(this.chart).setOption(this.options, {
         notMerge: true
       })
+      toRaw(this.chart).on('legendselectchanged', (obj) => {
+        this.options.legend.selected = obj.selected;
+      });
     },
     handleYAxis () {
       this.options.yAxis.max = Math.ceil(this.maxPercent)
@@ -124,7 +133,7 @@ export default defineComponent({
       for (const key in this.indexTickMap) {
         let element = this.indexTickMap[key];
         legendsData.push(element.info.name)
-        legendsSelected[element.info.name] = true
+        legendsSelected[element.info.name] = this.options.legend.selected[element.info.name] === undefined ? true : this.options.legend.selected[element.info.name]
         series.push({
           name: element.info.name,
           showSymbol: false,
@@ -138,9 +147,7 @@ export default defineComponent({
       }
       this.options.series = series
       this.options.legend = {
-        top:0,
-        itemWidth: 45,
-        itemHeight: 0,
+        ...this.options.legend,
         data: legendsData,
         selected: legendsSelected
       }
