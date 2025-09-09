@@ -67,7 +67,6 @@ export default defineComponent({
             alignWithLabel: true // 刻度与标签对齐
           }
         },
-        // xAxis: {},
         yAxis: {
           type: 'value',
           name: '涨跌幅（%）',
@@ -78,7 +77,8 @@ export default defineComponent({
         series: [],
       },
       chart: null,
-      maxPercent: 1
+      maxPercent: 1,
+      originalMaxPrice: 1,
     }
   },
   watch: {
@@ -120,6 +120,7 @@ export default defineComponent({
       const series = []
       const legendsData = []
       const legendsSelected = {}
+      this.maxPercent = this.originalMaxPrice
       for (const key in this.indexTickMap) {
         let element = this.indexTickMap[key];
         legendsData.push(element.info.name)
