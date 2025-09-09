@@ -87,3 +87,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.margin_right_10 {
+  margin-right: 10px;
+}

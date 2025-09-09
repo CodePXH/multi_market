@@ -18,6 +18,7 @@
             :value="index.code"
         ></el-option>
       </el-select>
+      <el-button type="primary" class="margin_right_10" @click="reloadIndexOptions">重载指数选项</el-button>
       <el-icon size="20" @click="setCookie"><Setting /></el-icon>
     </div>
     <div class="content-cla2">
@@ -28,7 +29,7 @@
 </template>
 
 <script>
-import { getIndexCache } from '@/utils/indexSet';
+import {clearIndexCache, getIndexCache} from '@/utils/indexSet';
 import xueQiuServer from "@/service/xueQiuServer.js";
 import {Setting} from "@element-plus/icons-vue";
 import SetCookie from "@/components/market/common/setCookie.vue";
@@ -51,17 +52,7 @@ export default {
   async mounted() {
     // 获取指数列表数据
     polling.start(this.pollingQuery, 30 * 1000)
-    try {
-      const indices = await getIndexCache();
-      if (indices) {
-        this.indexList = indices;
-        indices.forEach((item, index) => {
-          this.indexMap[item.code] = item
-        })
-      }
-    } catch (error) {
-      console.error('获取指数列表失败:', error);
-    }
+    await this.loadIndexOptions()
   },
   watch: {
 
@@ -70,6 +61,23 @@ export default {
     polling.stop(this.pollingQuery)
   },
   methods: {
+    reloadIndexOptions () {
+      clearIndexCache()
+      this.loadIndexOptions()
+    },
+    async loadIndexOptions () {
+      try {
+        const indices = await getIndexCache();
+        if (indices) {
+          this.indexList = indices;
+          indices.forEach((item, index) => {
+            this.indexMap[item.code] = item
+          })
+        }
+      } catch (error) {
+        console.error('获取指数列表失败:', error);
+      }
+    },
     setCookie () {
       this.$refs.setCookie.show()
     },
