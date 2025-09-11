@@ -175,9 +175,6 @@ export default {
         // 可以在这里添加UI提示，如this.$message.error
       }
 
-      // 这里可以添加统一的数据处理逻辑
-      console.log('所有指数数据获取完成:', successData);
-
     }
   }
 }
