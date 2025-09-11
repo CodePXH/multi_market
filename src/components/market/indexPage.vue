@@ -50,6 +50,7 @@ export default {
     }
   },
   async mounted() {
+    this.loadSelectedIndicesCache()
     // 获取指数列表数据
     polling.start(this.pollingQuery, 30 * 1000)
     await this.loadIndexOptions()
@@ -102,6 +103,16 @@ export default {
         if (this.selectedIndices.length > 0) {
           this.fetchMultipleIndicesData(this.selectedIndices);
         }
+      }
+      this.saveSelectedIndicesCache()
+    },
+    saveSelectedIndicesCache () {
+      localStorage.setItem('selectedIndices', JSON.stringify(this.selectedIndices));
+    },
+    loadSelectedIndicesCache () {
+      const cachedIndices = localStorage.getItem('selectedIndices');
+      if (cachedIndices) {
+        this.selectedIndices = JSON.parse(cachedIndices);
       }
     },
     /**
