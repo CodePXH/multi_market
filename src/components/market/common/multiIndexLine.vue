@@ -6,7 +6,7 @@
 
 <script>
 
-import {defineComponent,toRaw} from "vue";
+import {defineComponent, toRaw} from "vue";
 import {AShareMarketTimeLine} from "@/utils/constant.js";
 import * as echarts from 'echarts';
 import {getRedOrGreenColorHtml} from "@/utils/ustils.js";
@@ -85,6 +85,7 @@ export default defineComponent({
       chart: null,
       maxPercent: 1,
       originalMaxPrice: 1,
+      resizeListener: null, // 添加resize监听器引用
     }
   },
   watch: {
@@ -97,17 +98,30 @@ export default defineComponent({
   },
   mounted() {
     this.initChart()
+    this.addResizeListener()
   },
   methods: {
+    addResizeListener() {
+      // 添加resize事件监听
+      this.resizeListener = () => {
+        this.chart.resize()
+      }
+      window.addEventListener('resize', this.resizeListener)
+    },
+    removeResizeListener() {
+      // 移除resize事件监听
+      if (this.resizeListener) {
+        window.removeEventListener('resize', this.resizeListener)
+        this.resizeListener = null
+      }
+    },
     initChart () {
       const element = document.getElementById('multiIndexChart')
       if (element) {
         element.style.width = '100%'
         element.style.height = '100%'
       }
-      let eChartsType = echarts.init(element);
-      console.log(eChartsType)
-      this.chart = eChartsType
+      this.chart = echarts.init(element)
       this.drawChart()
     },
     drawChart() {
@@ -171,7 +185,11 @@ export default defineComponent({
       })
     },
     beforeUnmount() {
-
+      this.removeResizeListener()
+      if (this.chart) {
+        this.chart.dispose()
+        this.chart = null
+      }
     }
   }
 })
