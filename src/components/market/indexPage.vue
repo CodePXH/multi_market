@@ -22,7 +22,12 @@
       <el-icon size="20" @click="setCookie"><Setting /></el-icon>
     </div>
     <div class="content-cla2">
-      <multi-index-line :index-tick-map="indexRealTimeData"></multi-index-line>
+      <div class="line-area">
+        <multi-index-line :index-tick-map="indexRealTimeData" :security-color="securityColors"></multi-index-line>
+      </div>
+      <div class="table-area">
+
+      </div>
     </div>
     <set-cookie ref="setCookie"></set-cookie>
   </div>
@@ -33,7 +38,7 @@ import {clearIndexCache, getIndexCache} from '@/utils/indexSet';
 import xueQiuServer from "@/service/xueQiuServer.js";
 import {Setting} from "@element-plus/icons-vue";
 import SetCookie from "@/components/market/common/setCookie.vue";
-import {AShareMarketTimeLine} from "@/utils/constant.js";
+import {AShareMarketTimeLine, colorsArray} from "@/utils/constant.js";
 import MultiIndexLine from "@/components/market/common/multiIndexLine.vue";
 import polling from "@/utils/polling.js";
 import {ElMessage} from "element-plus";
@@ -46,6 +51,7 @@ export default {
       selectedIndices: [], // 存储选中的指数代码
       indexList: [], // 指数列表数据
       indexMap: {},
+      securityColors: {},
       indexRealTimeData: {} // 存储实时数据结果
     }
   },
@@ -73,6 +79,7 @@ export default {
           this.indexList = indices;
           indices.forEach((item, index) => {
             this.indexMap[item.code] = item
+            this.securityColors[item.code] = colorsArray[index % colorsArray.length]
           })
         }
       } catch (error) {
@@ -201,6 +208,18 @@ export default {
     margin-top: 5px;
     height: calc(100% - 65px);
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+
+    .line-area {
+      height: 100%;
+      width: 60%;
+    }
+    .table-area {
+      height: 100%;
+      width: 40%;
+    }
   }
 }
 </style>

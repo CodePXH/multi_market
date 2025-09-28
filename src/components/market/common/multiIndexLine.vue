@@ -20,6 +20,13 @@ export default defineComponent({
       default: () => {
         return {}
       }
+    },
+    securityColor: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {}
+      }
     }
   },
   destroyed() {
@@ -28,8 +35,17 @@ export default defineComponent({
   data() {
     return {
       options: {
+        grid: {
+          left: 50,   // 距离容器左侧100px
+          top: 50,     // 距离容器顶部50px
+          right: 150,   // 距离容器右侧50px
+          bottom: 30,  // 距离容器底部50px
+          containLabel: true // 确保标签不被裁剪
+        },
         legend: {
-          top:0,
+          right: 10, // 距离容器右侧 10px（固定在右侧）
+          top: 'center', // 垂直居中
+          orient: 'vertical', // 垂直排列（默认 horizontal 水平）
           itemWidth: 45,
           itemHeight: 0,
           data: [],
@@ -84,6 +100,7 @@ export default defineComponent({
       },
       chart: null,
       maxPercent: 1,
+      minPercent: -1,
       originalMaxPrice: 1,
       resizeListener: null, // 添加resize监听器引用
     }
@@ -135,9 +152,10 @@ export default defineComponent({
       });
     },
     handleYAxis () {
+      console.warn('handleYAxis', this.maxPercent, this.minPercent)
       this.options.yAxis.max = Math.ceil(this.maxPercent)
-      this.options.yAxis.min = -Math.ceil(this.maxPercent)
-      this.options.yAxis.interval = Math.ceil(this.maxPercent) / 5
+      this.options.yAxis.min = Math.ceil(this.minPercent) - 1
+      // this.options.yAxis.interval = (Math.abs(this.options.yAxis.max) + Math.abs(this.options.yAxis.min)) / 5
     },
     handleData () {
       const series = []
@@ -154,7 +172,10 @@ export default defineComponent({
           xAxisIndex: 0,
           yAxisIndex: 0,
           data: this.seriesData(element.info, element.seriesList),
-          type: 'line'
+          type: 'line',
+          itemStyle: {
+            color: this.securityColor[element.info.code]
+          }
         })
 
 
@@ -172,8 +193,11 @@ export default defineComponent({
         return []
       }
       return data.map(e => {
-        if (Math.abs(e.percent) > this.maxPercent) {
-          this.maxPercent = Math.abs(e.percent)
+        if (e.percent > this.maxPercent) {
+          this.maxPercent = e.percent
+        }
+        if (e.percent < this.minPercent) {
+          this.minPercent = e.percent
         }
         return {
           value: e.percent,
@@ -199,5 +223,6 @@ export default defineComponent({
 .multiIndexLine {
   width: 100%;
   height: 100%;
+  background-color: #f8f0f0;
 }
 </style>
