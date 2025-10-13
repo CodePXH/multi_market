@@ -8,7 +8,6 @@
         border
         :highlight-current-row="true"
         style="width: 100%"
-        height="200"
         :row-key="'secu_code'"
     >
       <el-table-column
