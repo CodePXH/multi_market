@@ -151,7 +151,6 @@ export default defineComponent({
       });
     },
     handleYAxis () {
-      console.warn('handleYAxis', this.maxPercent, this.minPercent)
       this.options.yAxis.max = Math.ceil(this.maxPercent)
       this.options.yAxis.min = Math.ceil(this.minPercent) - 1
       // this.options.yAxis.interval = (Math.abs(this.options.yAxis.max) + Math.abs(this.options.yAxis.min)) / 5
