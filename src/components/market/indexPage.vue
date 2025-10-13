@@ -26,7 +26,7 @@
         <multi-index-line :index-tick-map="indexRealTimeData" :security-color="securityColors"></multi-index-line>
       </div>
       <div class="table-area">
-
+        <multi-index-section-yield></multi-index-section-yield>
       </div>
     </div>
     <set-cookie ref="setCookie"></set-cookie>
@@ -42,10 +42,11 @@ import {AShareMarketTimeLine, colorsArray} from "@/utils/constant.js";
 import MultiIndexLine from "@/components/market/common/multiIndexLine.vue";
 import polling from "@/utils/polling.js";
 import {ElMessage} from "element-plus";
+import MultiIndexSectionYield from "@/components/market/common/MultiIndexSectionYield.vue";
 
 export default {
   name: 'market-index-page',
-  components: {MultiIndexLine, SetCookie, Setting},
+  components: {MultiIndexSectionYield, MultiIndexLine, SetCookie, Setting},
   data() {
     return {
       selectedIndices: [], // 存储选中的指数代码

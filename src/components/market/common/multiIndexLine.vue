@@ -37,16 +37,15 @@ export default defineComponent({
       options: {
         grid: {
           left: 50,   // 距离容器左侧100px
-          top: 50,     // 距离容器顶部50px
-          right: 150,   // 距离容器右侧50px
+          top: 150,     // 距离容器顶部50px
+          right: 50,   // 距离容器右侧50px
           bottom: 30,  // 距离容器底部50px
           containLabel: true // 确保标签不被裁剪
         },
         legend: {
-          right: 10, // 距离容器右侧 10px（固定在右侧）
-          top: 'center', // 垂直居中
-          orient: 'vertical', // 垂直排列（默认 horizontal 水平）
-          itemWidth: 45,
+          top: 10,
+          // orient: 'vertical', // 垂直排列（默认 horizontal 水平）
+          itemWidth: 35,
           itemHeight: 0,
           data: [],
           selected: {}
@@ -223,6 +222,6 @@ export default defineComponent({
 .multiIndexLine {
   width: 100%;
   height: 100%;
-  background-color: #f8f0f0;
+  background-color: #ffffff;
 }
 </style>
