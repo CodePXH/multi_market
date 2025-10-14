@@ -12,7 +12,7 @@
     >
       <el-table-column
           type="index"
-          :width="45"
+          :width="35"
           align="center"
           :fixed="true"
           label="序号">
@@ -57,7 +57,7 @@ export default {
         {
           prop: 'secu_code',
           label: '指数代码',
-          width: '100',
+          width: '80',
           align: 'center',
           fixed: true,
           itemClass: 'text-align-center'
@@ -65,7 +65,7 @@ export default {
         {
           prop: 'secu_name',
           label: '指数名称',
-          width: '100',
+          width: '90',
           align: 'center',
           fixed: true,
           itemClass: 'text-align-center'
@@ -75,7 +75,7 @@ export default {
           label: 'T',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -87,7 +87,7 @@ export default {
           label: 'T-1',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -99,7 +99,7 @@ export default {
           label: 'T-2',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -111,7 +111,7 @@ export default {
           label: '本周',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -124,7 +124,7 @@ export default {
           label: '上周',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -137,7 +137,7 @@ export default {
           label: '上上周',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -149,7 +149,7 @@ export default {
           label: '本月',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -161,7 +161,7 @@ export default {
           label: '上月',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -174,7 +174,7 @@ export default {
           label: '上上月',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -186,7 +186,7 @@ export default {
           label: '今年',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
@@ -198,7 +198,7 @@ export default {
           label: '去年',
           br: true,
           sortable: true,
-          width: '100',
+          width: '70',
           align: 'center',
           itemClass: 'text-align-center',
           render: (val, row) => {
